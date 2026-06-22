@@ -919,7 +919,12 @@
         fd.set('RegisterForm[email]',fields.email.value.trim());
         fd.set('RegisterForm[referer]',fields.referer.value.trim());
        // var resp=await fetch(form.action,{method:'POST',body:fd,credentials:'include'});
-        var resp = await fetch(form.action, { method: 'POST', body: fd }); // Убрали credentials
+      //  var resp = await fetch(form.action, { method: 'POST', body: fd }); // Убрали credentials
+        var resp = await fetch(form.action, { 
+  method: 'POST', 
+  body: fd,
+  redirect: 'manual' // <--- Браузер просто заберет сам ответ, не пытаясь прыгать по редиректам
+});
         var text=await resp.text();
         var parser=new DOMParser(), doc=parser.parseFromString(text,'text/html');
         var success=doc.querySelector('.alert.alert-success'), danger=doc.querySelector('.alert.alert-danger');
