@@ -674,7 +674,7 @@
       <div class="modal-title" id="modal-title-el">Создать аккаунт</div>
       <div class="modal-sub" id="page-title">Регистрация в Dalam World — это бесплатно!</div>
       <div id="messages"></div>
-      <form class="form-horizontal" id="register-form" action="https://cp.dalam.world/register" method="post" novalidate="">
+      <form class="form-horizontal" id="register-form" action="https://proxy-russia-regweb-srv-vrc.dalam.world/register" method="post" novalidate="">
         <input type="hidden" name="GHTWEB_CSRF_TOKEN" id="GHTWEB_CSRF_TOKEN" value="6a2fd13ad0e3a3b0737a6d555e40a543ea25c504">
         <div class="form-group">
           <input placeholder="Логин" class="form-control" name="RegisterForm[login]" id="RegisterForm_login" type="text" maxlength="14" required="">
@@ -918,7 +918,8 @@
         fd.set('RegisterForm[re_password]',fields.repassword.value);
         fd.set('RegisterForm[email]',fields.email.value.trim());
         fd.set('RegisterForm[referer]',fields.referer.value.trim());
-        var resp=await fetch(form.action,{method:'POST',body:fd,credentials:'include'});
+       // var resp=await fetch(form.action,{method:'POST',body:fd,credentials:'include'});
+        var resp = await fetch(form.action, { method: 'POST', body: fd }); // Убрали credentials
         var text=await resp.text();
         var parser=new DOMParser(), doc=parser.parseFromString(text,'text/html');
         var success=doc.querySelector('.alert.alert-success'), danger=doc.querySelector('.alert.alert-danger');
