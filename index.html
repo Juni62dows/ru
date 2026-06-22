@@ -920,12 +920,28 @@
         fd.set('RegisterForm[referer]',fields.referer.value.trim());
        // var resp=await fetch(form.action,{method:'POST',body:fd,credentials:'include'});
       //  var resp = await fetch(form.action, { method: 'POST', body: fd }); // Убрали credentials
-        var resp = await fetch(form.action, { 
+   /*     var resp = await fetch(form.action, { 
   method: 'POST', 
   body: fd,
   redirect: 'manual' // <--- Браузер просто заберет сам ответ, не пытаясь прыгать по редиректам
 });
         var text=await resp.text();
+        */
+        // Добавляем 'redirect: 'manual', чтобы браузер не шел по редиректу PHP
+var resp = await fetch(form.action, { 
+  method: 'POST', 
+  body: fd,
+  redirect: 'manual' 
+});
+
+var text = await resp.text();
+
+// Если сервер вернул пустоту (например при редиректе), 
+// но аккаунт создался (статус 200 или 0 для manual redirect)
+if (!text || text.trim() === "") {
+  handleSuccess(); 
+  return;
+}
         var parser=new DOMParser(), doc=parser.parseFromString(text,'text/html');
         var success=doc.querySelector('.alert.alert-success'), danger=doc.querySelector('.alert.alert-danger');
         if(success) handleSuccess();
